@@ -54,14 +54,14 @@ const TournamentBracket = () => {
           {tournamentData.rounds.map((round, roundIndex) => (
             <div 
               key={roundIndex} 
-              className="flex flex-col space-y-6 items-center p-6 rounded-lg shadow-lg border border-red-900/30"
+              className="flex flex-col space-y-6 items-center p-6 rounded-lg shadow-lg border border-green-900/30"
               style={{
                 background: 'rgba(20, 20, 20, 0.65)',
                 backdropFilter: 'blur(12px)',
                 boxShadow: '0 4px 30px rgba(0, 0, 0, 0.4)'
               }}
             >
-              <h2 className="text-xl font-semibold mb-4 text-white border-b-2 border-red-800/60 pb-2 w-full text-center">{round.name}</h2>
+              <h2 className="text-xl font-semibold mb-4 text-white border-b-2 border-green-800/60 pb-2 w-full text-center">{round.name}</h2>
               
               <div className={`flex flex-col justify-around w-full ${
                 roundIndex === 0 ? 'space-y-6' : 

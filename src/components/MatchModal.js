@@ -281,8 +281,9 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
 
   // Определяем победителя на основе счета
   let winner = null;
+  let scores = [0, 0];
   if (match.score) {
-    const scores = match.score.split(':').map(Number);
+    scores = match.score.split(':').map(Number);
     winner = scores[0] > scores[1] ? match.team1 : match.team2;
   }
 
@@ -296,6 +297,10 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
   const isQuarterFinal = match.id >= 1 && match.id <= 4;
   const isSemiFinal = match.id >= 5 && match.id <= 6;
   const isFinal = match.id === 7;
+
+  // Определяем статусы команд (победитель/проигравший)
+  const team1IsWinner = winner === match.team1;
+  const team2IsWinner = winner === match.team2;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -327,13 +332,13 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                 className="w-full max-w-4xl transform overflow-hidden rounded-xl glass-effect text-left align-middle shadow-xl transition-all"
                 style={{
                   background: 'rgba(24, 24, 24, 0.9)',
-                  border: '1px solid rgba(220, 38, 38, 0.3)',
+                  border: '1px solid rgba(22, 163, 74, 0.3)',
                   boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
                 }}
               >
-                <div className="px-6 py-4 border-b border-red-800/40"
+                <div className="px-6 py-4 border-b border-green-800/40"
                   style={{
-                    background: 'linear-gradient(90deg, rgba(185, 28, 28, 0.7) 0%, rgba(127, 29, 29, 0.7) 100%)'
+                    background: 'linear-gradient(90deg, rgba(22, 163, 74, 0.7) 0%, rgba(21, 128, 61, 0.7) 100%)'
                   }}
                 >
                   <Dialog.Title className="text-lg font-medium text-white flex items-center">
@@ -342,57 +347,66 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                   </Dialog.Title>
                 </div>
 
-                <div className="p-6">
+                <div className="p-8">
                   {/* Команды и счет */}
-                  <div className="flex justify-between items-center mb-8 border-b border-red-900/20 pb-6">
+                  <div className="flex justify-between items-center mb-10 border-b border-green-900/20 pb-8">
                     <div className="flex items-center">
-                      <span className="team-logo mr-3" style={{ fontSize: '2rem' }}>
+                      <span className="team-logo mr-4" style={{ fontSize: '2.5rem' }}>
                         {getTeamLogo(match.team1)}
                       </span>
                       <div>
-                        <h2 className="text-xl font-bold text-white">{match.team1}</h2>
-                        {winner === match.team1 && <span className="text-green-500 text-sm">Победитель</span>}
+                        <h2 className="text-2xl font-bold text-white">{match.team1}</h2>
+                        {team1IsWinner && <span className="text-green-500 text-sm font-medium">Победитель</span>}
                       </div>
                     </div>
 
                     {match.score && (
-                      <div className="px-4 py-2 rounded-lg text-xl font-bold text-white"
-                        style={{
-                          background: 'rgba(185, 28, 28, 0.4)',
-                          border: '1px solid rgba(239, 68, 68, 0.3)'
-                        }}
-                      >
-                        {match.score}
+                      <div className="flex items-center space-x-3">
+                        <div 
+                          className={`w-16 h-16 flex items-center justify-center rounded-md shadow-lg ${
+                            team1IsWinner ? 'bg-green-600' : 'bg-red-800'
+                          }`}
+                        >
+                          <span className="text-3xl font-bold text-white">{scores[0]}</span>
+                        </div>
+                        <span className="text-xl font-bold text-gray-400">:</span>
+                        <div 
+                          className={`w-16 h-16 flex items-center justify-center rounded-md shadow-lg ${
+                            team2IsWinner ? 'bg-green-600' : 'bg-red-800'
+                          }`}
+                        >
+                          <span className="text-3xl font-bold text-white">{scores[1]}</span>
+                        </div>
                       </div>
                     )}
 
                     <div className="flex items-center">
                       <div className="text-right">
-                        <h2 className="text-xl font-bold text-white">{match.team2}</h2>
-                        {winner === match.team2 && <span className="text-green-500 text-sm">Победитель</span>}
+                        <h2 className="text-2xl font-bold text-white">{match.team2}</h2>
+                        {team2IsWinner && <span className="text-green-500 text-sm font-medium">Победитель</span>}
                       </div>
-                      <span className="team-logo ml-3" style={{ fontSize: '2rem' }}>
+                      <span className="team-logo ml-4" style={{ fontSize: '2.5rem' }}>
                         {getTeamLogo(match.team2)}
                       </span>
                     </div>
                   </div>
 
                   {/* Информация о матче */}
-                  <div className="grid grid-cols-2 gap-6 mt-6">
-                    <div className="bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
-                      <h4 className="text-sm font-medium text-indigo-400 mb-1">Дата</h4>
-                      <p className="font-medium text-white">{match.date}</p>
+                  <div className="grid grid-cols-2 gap-8 mt-8">
+                    <div className="bg-gray-800/70 p-5 rounded-lg border border-indigo-900">
+                      <h4 className="text-sm font-medium text-indigo-400 mb-2">Дата</h4>
+                      <p className="font-medium text-white text-lg">{match.date}</p>
                     </div>
-                    <div className="bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
-                      <h4 className="text-sm font-medium text-indigo-400 mb-1">Продолжительность</h4>
-                      <p className="font-medium text-white">{match.duration}</p>
+                    <div className="bg-gray-800/70 p-5 rounded-lg border border-indigo-900">
+                      <h4 className="text-sm font-medium text-indigo-400 mb-2">Продолжительность</h4>
+                      <p className="font-medium text-white text-lg">{match.duration}</p>
                     </div>
                   </div>
 
                   {/* Стадия турнира */}
-                  <div className="bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
-                    <h4 className="text-sm font-medium text-indigo-400 mb-1">Стадия турнира</h4>
-                    <p className="font-medium text-white">
+                  <div className="bg-gray-800/70 p-5 rounded-lg border border-indigo-900 mt-8">
+                    <h4 className="text-sm font-medium text-indigo-400 mb-2">Стадия турнира</h4>
+                    <p className="font-medium text-white text-lg">
                       {isQuarterFinal && "Четвертьфинал"}
                       {isSemiFinal && "Полуфинал"}
                       {isFinal && "Финал"}
@@ -400,21 +414,21 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                   </div>
 
                   {/* Статистика матча */}
-                  <div className="mt-8">
-                    <h4 className="text-xl font-medium mb-4 text-indigo-300 border-b border-indigo-800 pb-2">Статистика матча</h4>
+                  <div className="mt-10">
+                    <h4 className="text-xl font-medium mb-6 text-indigo-300 border-b border-indigo-800 pb-2">Статистика матча</h4>
                     
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-3 gap-8">
                       {/* Убийства */}
-                      <div className="bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-indigo-400">Убийства</span>
+                      <div className="bg-gray-800/70 p-5 rounded-lg border border-indigo-900">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-indigo-400 font-medium">Убийства</span>
                           <div className="flex space-x-4">
                             <span className="text-indigo-300 font-bold">{team1Stats.kills}</span>
                             <span className="text-gray-500">vs</span>
                             <span className="text-indigo-300 font-bold">{team2Stats.kills}</span>
                           </div>
                         </div>
-                        <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                        <div className="w-full bg-gray-700 h-3 rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-indigo-600" 
                             style={{ 
@@ -425,16 +439,16 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                       </div>
                       
                       {/* Души */}
-                      <div className="bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-indigo-400">Души</span>
+                      <div className="bg-gray-800/70 p-5 rounded-lg border border-indigo-900">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-indigo-400 font-medium">Души</span>
                           <div className="flex space-x-4">
                             <span className="text-indigo-300 font-bold">{team1Stats.souls}</span>
                             <span className="text-gray-500">vs</span>
                             <span className="text-indigo-300 font-bold">{team2Stats.souls}</span>
                           </div>
                         </div>
-                        <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                        <div className="w-full bg-gray-700 h-3 rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-purple-600" 
                             style={{ 
@@ -445,16 +459,16 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                       </div>
                       
                       {/* Урон */}
-                      <div className="bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-indigo-400">Урон</span>
+                      <div className="bg-gray-800/70 p-5 rounded-lg border border-indigo-900">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-indigo-400 font-medium">Урон</span>
                           <div className="flex space-x-4">
                             <span className="text-indigo-300 font-bold">{team1Stats.damage.toLocaleString()}</span>
                             <span className="text-gray-500">vs</span>
                             <span className="text-indigo-300 font-bold">{team2Stats.damage.toLocaleString()}</span>
                           </div>
                         </div>
-                        <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                        <div className="w-full bg-gray-700 h-3 rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-blue-600" 
                             style={{ 
@@ -467,18 +481,18 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                   </div>
 
                   {/* Составы команд */}
-                  <div className="mt-8 grid grid-cols-2 gap-8">
+                  <div className="mt-10 grid grid-cols-2 gap-10">
                     {/* Команда 1 */}
                     <div>
-                      <h4 className="text-xl font-medium mb-4 text-white border-b border-indigo-800 pb-2">
+                      <h4 className="text-xl font-medium mb-6 text-white border-b border-indigo-800 pb-2">
                         {match.team1}
                       </h4>
-                      <div className="space-y-3">
+                      <div className="space-y-4">
                         {team1Heroes.map((hero, idx) => (
-                          <div key={idx} className="flex items-start bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
+                          <div key={idx} className="flex items-start bg-gray-800/70 p-5 rounded-lg border border-indigo-900">
                             {/* Левая часть - изображение и имя героя */}
                             <div className="flex flex-col items-center w-20">
-                              <div className="w-14 h-14 rounded-full overflow-hidden mb-2">
+                              <div className="w-16 h-16 rounded-full overflow-hidden mb-2 border-2 border-gray-700">
                                 <img 
                                   src={`/images/heroes/${hero.image}`} 
                                   alt={hero.name}
@@ -494,8 +508,8 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                             </div>
                             
                             {/* Правая часть - детальная статистика героя */}
-                            <div className="flex-1 ml-4">
-                              <div className="grid grid-cols-3 gap-2 mb-3">
+                            <div className="flex-1 ml-5">
+                              <div className="grid grid-cols-3 gap-3 mb-3">
                                 <div className="bg-gray-900/80 p-2 rounded text-center">
                                   <div className="text-lg font-bold text-red-400">{hero.stats?.kills || 0}</div>
                                   <div className="text-xs text-gray-400">убийств</div>
@@ -509,7 +523,7 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                                   <div className="text-xs text-gray-400">ассистов</div>
                                 </div>
                               </div>
-                              <div className="bg-indigo-900/30 p-2 rounded text-center">
+                              <div className="bg-indigo-900/30 p-3 rounded text-center">
                                 <div className="text-xs text-indigo-300 mb-1">Собрано душ</div>
                                 <div className="text-lg font-bold text-indigo-400">
                                   {hero.stats?.souls?.toLocaleString() || 0}
@@ -523,15 +537,15 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
 
                     {/* Команда 2 */}
                     <div>
-                      <h4 className="text-xl font-medium mb-4 text-white border-b border-indigo-800 pb-2">
+                      <h4 className="text-xl font-medium mb-6 text-white border-b border-indigo-800 pb-2">
                         {match.team2}
                       </h4>
-                      <div className="space-y-3">
+                      <div className="space-y-4">
                         {team2Heroes.map((hero, idx) => (
-                          <div key={idx} className="flex items-start bg-gray-800/70 p-4 rounded-lg border border-indigo-900">
+                          <div key={idx} className="flex items-start bg-gray-800/70 p-5 rounded-lg border border-indigo-900">
                             {/* Левая часть - изображение и имя героя */}
                             <div className="flex flex-col items-center w-20">
-                              <div className="w-14 h-14 rounded-full overflow-hidden mb-2">
+                              <div className="w-16 h-16 rounded-full overflow-hidden mb-2 border-2 border-gray-700">
                                 <img 
                                   src={`/images/heroes/${hero.image}`} 
                                   alt={hero.name}
@@ -547,8 +561,8 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                             </div>
                             
                             {/* Правая часть - детальная статистика героя */}
-                            <div className="flex-1 ml-4">
-                              <div className="grid grid-cols-3 gap-2 mb-3">
+                            <div className="flex-1 ml-5">
+                              <div className="grid grid-cols-3 gap-3 mb-3">
                                 <div className="bg-gray-900/80 p-2 rounded text-center">
                                   <div className="text-lg font-bold text-red-400">{hero.stats?.kills || 0}</div>
                                   <div className="text-xs text-gray-400">убийств</div>
@@ -562,7 +576,7 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                                   <div className="text-xs text-gray-400">ассистов</div>
                                 </div>
                               </div>
-                              <div className="bg-indigo-900/30 p-2 rounded text-center">
+                              <div className="bg-indigo-900/30 p-3 rounded text-center">
                                 <div className="text-xs text-indigo-300 mb-1">Собрано душ</div>
                                 <div className="text-lg font-bold text-indigo-400">
                                   {hero.stats?.souls?.toLocaleString() || 0}
@@ -576,11 +590,11 @@ const MatchModal = ({ isOpen, closeModal, match }) => {
                   </div>
                 </div>
 
-                <div className="px-6 py-3 bg-gray-900/50 border-t border-red-900/30 flex justify-end">
+                <div className="border-t border-green-900/20 px-6 py-4 flex justify-end">
                   <button
                     type="button"
-                    className="px-4 py-2 text-sm font-medium text-white bg-red-800 hover:bg-red-700 rounded-md"
                     onClick={closeModal}
+                    className="inline-flex justify-center rounded-md border border-green-700 bg-green-900 bg-opacity-30 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                   >
                     Закрыть
                   </button>

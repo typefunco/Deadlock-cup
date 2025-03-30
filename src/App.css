@@ -1,6 +1,9 @@
+/* Базовые стили, остальное через Tailwind CSS */
 .App {
   text-align: center;
 }
+
+/* Остальное стилизирование через Tailwind CSS */
 
 .App-logo {
   height: 40vmin;
@@ -14,7 +17,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #111;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -25,7 +28,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #e11d48;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +38,94 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Анимации для заблюренных элементов */
+@keyframes blob {
+  0% {
+    transform: scale(1) translate(0px, 0px);
+  }
+  33% {
+    transform: scale(1.1) translate(30px, -50px);
+  }
+  66% {
+    transform: scale(0.9) translate(-20px, 20px);
+  }
+  100% {
+    transform: scale(1) translate(0px, 0px);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Стилизация полос прокрутки */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b91c1c;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ef4444;
+}
+
+/* Глобальные стили для фона и поддержки эффекта матового стекла */
+body {
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-image: 
+    radial-gradient(circle at center, 
+      rgba(64, 64, 64, 0.7) 0%, 
+      rgba(32, 32, 32, 0.85) 30%, 
+      rgba(0, 0, 0, 1) 70%);
+  background-attachment: fixed;
+  background-size: 200% 200%;
+  background-position: center;
+}
+
+/* Поддержка backdrop-filter для разных браузеров */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .glass-effect {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Для браузеров без поддержки backdrop-filter */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .glass-effect {
+    background-color: rgba(15, 15, 15, 0.85);
+  }
+}
+
+/* Дополнительные эффекты для карточек */
+.match-card {
+  transform: translateZ(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.match-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(239, 68, 68, 0.3);
 }

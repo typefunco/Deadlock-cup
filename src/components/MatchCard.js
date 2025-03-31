@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Объект с логотипами команд (эмодзи)
+// Team logos object (emojis)
 export const teamLogos = {
   'Galaxy Guardians': '🚀',
   'Nexus Dominators': '⚡',
@@ -10,17 +10,17 @@ export const teamLogos = {
   'Void Warriors': '🛡️',
   'Phoenix Force': '🔥',
   'Dark Knights': '🌑',
-  // Логотип по умолчанию
+  // Default logo
   default: '🏆'
 };
 
-// Функция для получения логотипа по имени команды
+// Function to get logo by team name
 export const getTeamLogo = (teamName) => {
   return teamLogos[teamName] || teamLogos.default;
 };
 
 const MatchCard = ({ match, onClick }) => {
-  // Разбираем счёт на числа для определения победителя
+  // Parse score to determine the winner
   const [team1Score, team2Score] = match.score.split(':').map(num => parseInt(num, 10));
   const team1Win = team1Score > team2Score;
   const team2Win = team2Score > team1Score;
@@ -31,7 +31,7 @@ const MatchCard = ({ match, onClick }) => {
       onClick={onClick}
     >
       <div className="flex flex-col space-y-3">
-        {/* Команда 1 */}
+        {/* Team 1 */}
         <div className={`flex justify-between items-center ${team1Win ? 'text-green-400 font-semibold' : 'text-gray-300'}`}>
           <span>{match.team1}</span>
           <span className={`w-6 h-6 flex items-center justify-center rounded-full ${team1Win ? 'bg-green-800' : 'bg-gray-800'}`}>
@@ -41,7 +41,7 @@ const MatchCard = ({ match, onClick }) => {
         
         <div className="border-b border-gray-700"></div>
         
-        {/* Команда 2 */}
+        {/* Team 2 */}
         <div className={`flex justify-between items-center ${team2Win ? 'text-green-400 font-semibold' : 'text-gray-300'}`}>
           <span>{match.team2}</span>
           <span className={`w-6 h-6 flex items-center justify-center rounded-full ${team2Win ? 'bg-green-800' : 'bg-gray-800'}`}>
@@ -49,7 +49,7 @@ const MatchCard = ({ match, onClick }) => {
           </span>
         </div>
         
-        {/* Информация о матче */}
+        {/* Match information */}
         <div className="pt-2 flex items-center justify-between text-xs text-gray-500">
           <div className="flex items-center">
             <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

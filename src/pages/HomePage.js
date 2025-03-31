@@ -1,49 +1,152 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import TournamentBracket from '../components/TournamentBracket';
+import { useAuth } from '../contexts/AuthContext';
 
 const HomePage = () => {
+  const { isAuthenticated } = useAuth();
+  
   return (
-    <div className="min-h-screen text-white relative overflow-hidden">
-      {/* Заблюренные декоративные элементы */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-red-700 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-      <div className="absolute top-40 right-10 w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
-      <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-red-800 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-4000"></div>
-      
-      {/* Навигация */}
-      <nav className="relative z-10 bg-gray-900/50 border-b border-red-900/30">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold text-white">
-            DEADLOCK CUP
-          </Link>
-          <div className="flex space-x-4">
-            <Link to="/" className="px-4 py-2 text-white bg-red-800 hover:bg-red-700 rounded-md transition">
-              Турнирная сетка
-            </Link>
-            <Link to="/create-team" className="px-4 py-2 text-gray-300 hover:text-white transition">
-              Создать команду
-            </Link>
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Hero section */}
+      <div className="relative overflow-hidden">
+        <div 
+          className="absolute inset-0 z-0 opacity-20"
+          style={{
+            backgroundImage: 'url("/images/deadlock-bg.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(5px)'
+          }}
+        ></div>
+        <div className="container mx-auto px-4 py-32 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              <span className="text-white">DEADLOCK</span>
+              <span className="text-red-500">CUP</span>
+            </h1>
+            <p className="text-xl md:text-2xl mb-10 text-gray-300">
+              Welcome to the first official Deadlock esports tournament!
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link 
+                to="/tournaments" 
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition transform hover:scale-105"
+              >
+                View Tournaments
+              </Link>
+              
+              {isAuthenticated() ? (
+                <Link 
+                  to="/create-team" 
+                  className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition transform hover:scale-105"
+                >
+                  Register Team
+                </Link>
+              ) : (
+                <Link 
+                  to="/login" 
+                  className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition transform hover:scale-105"
+                >
+                  Sign In
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </nav>
-      
-      {/* Заголовок */}
-      <div className="relative pt-8 pb-4 text-center">
-        <h1 className="text-4xl font-bold tracking-tight">
-          <span className="text-white">Турнирная сетка </span>
-          <span className="text-red-600 uppercase font-black">DEADLOCK CUP</span>
-        </h1>
-        <div className="w-24 h-1 bg-gradient-to-r from-red-700 to-red-500 mx-auto mt-3"></div>
+      </div>
+
+      {/* Info section */}
+      <div className="bg-gray-800 py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-8 text-center">About the Tournament</h2>
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
+                <h3 className="text-xl font-bold mb-4 text-red-400">Tournament Format</h3>
+                <p className="text-gray-300 mb-4">
+                  The Deadlock Cup features 8 top teams competing in a single elimination bracket.
+                </p>
+                <p className="text-gray-300">
+                  Quarterfinals and semifinals are best-of-1, while the grand final is a best-of-5 series.
+                </p>
+              </div>
+              
+              <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
+                <h3 className="text-xl font-bold mb-4 text-red-400">Prize Pool</h3>
+                <p className="text-gray-300 mb-4">
+                  A total prize pool of $10,000 awaits the competitors:
+                </p>
+                <ul className="list-disc list-inside text-gray-300 space-y-2">
+                  <li>1st Place: $5,000</li>
+                  <li>2nd Place: $2,500</li>
+                  <li>3rd-4th Place: $1,250 each</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="bg-gray-700 rounded-lg p-6 shadow-lg">
+              <h3 className="text-xl font-bold mb-4 text-red-400">Tournament Schedule</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-gray-600 pb-3">
+                  <div>
+                    <h4 className="font-bold">Quarterfinals</h4>
+                    <p className="text-sm text-gray-400">Best-of-1</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-gray-300">April 10-11, 2023</p>
+                  </div>
+                </div>
+                
+                <div className="flex justify-between items-center border-b border-gray-600 pb-3">
+                  <div>
+                    <h4 className="font-bold">Semifinals</h4>
+                    <p className="text-sm text-gray-400">Best-of-1</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-gray-300">April 15, 2023</p>
+                  </div>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h4 className="font-bold">Grand Final</h4>
+                    <p className="text-sm text-gray-400">Best-of-5</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-gray-300">April 20, 2023</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       
-      <main className="container mx-auto py-4 px-4 relative z-10">
-        <TournamentBracket />
-      </main>
-      <footer className="border-t border-red-900/30 py-4 mt-auto">
-        <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          &copy; 2025 Deadlock. Все права защищены.
+      {/* CTA section */}
+      <div className="py-16 text-center">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-6">Ready to Join the Tournament?</h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Register your team now and compete for glory and prizes in the inaugural Deadlock Cup!
+          </p>
+          {isAuthenticated() ? (
+            <Link 
+              to="/create-team" 
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition"
+            >
+              Register Your Team
+            </Link>
+          ) : (
+            <Link 
+              to="/login" 
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition"
+            >
+              Sign In to Register
+            </Link>
+          )}
         </div>
-      </footer>
+      </div>
     </div>
   );
 };

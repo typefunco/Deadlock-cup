@@ -2,29 +2,29 @@ import React, { useState } from 'react';
 import MatchCard from './MatchCard';
 import MatchModal from './MatchModal';
 
-// Моковые данные для турнира Deadlock
+// Mock data for Deadlock tournament
 const tournamentData = {
   rounds: [
     {
-      name: 'Четвертьфинал',
+      name: 'Quarter-finals',
       matches: [
-        { id: 1, team1: 'Galaxy Guardians', team2: 'Nexus Dominators', score: '1:0', duration: '45 мин', date: '10.04.2023' },
-        { id: 2, team1: 'Shadow Assassins', team2: 'Arcane Mages', score: '1:0', duration: '38 мин', date: '10.04.2023' },
-        { id: 3, team1: 'Cyber Dragons', team2: 'Void Warriors', score: '0:1', duration: '52 мин', date: '11.04.2023' },
-        { id: 4, team1: 'Phoenix Force', team2: 'Dark Knights', score: '0:1', duration: '61 мин', date: '11.04.2023' },
+        { id: 1, team1: 'Galaxy Guardians', team2: 'Nexus Dominators', score: '1:0', duration: '45 min', date: '10.04.2023' },
+        { id: 2, team1: 'Shadow Assassins', team2: 'Arcane Mages', score: '1:0', duration: '38 min', date: '10.04.2023' },
+        { id: 3, team1: 'Cyber Dragons', team2: 'Void Warriors', score: '0:1', duration: '52 min', date: '11.04.2023' },
+        { id: 4, team1: 'Phoenix Force', team2: 'Dark Knights', score: '0:1', duration: '61 min', date: '11.04.2023' },
       ]
     },
     {
-      name: 'Полуфинал',
+      name: 'Semi-finals',
       matches: [
-        { id: 5, team1: 'Galaxy Guardians', team2: 'Shadow Assassins', score: '1:3', duration: '49 мин', date: '15.04.2023' },
-        { id: 6, team1: 'Void Warriors', team2: 'Dark Knights', score: '0:3', duration: '42 мин', date: '15.04.2023' },
+        { id: 5, team1: 'Galaxy Guardians', team2: 'Shadow Assassins', score: '1:3', duration: '49 min', date: '15.04.2023' },
+        { id: 6, team1: 'Void Warriors', team2: 'Dark Knights', score: '0:3', duration: '42 min', date: '15.04.2023' },
       ]
     },
     {
-      name: 'Финал',
+      name: 'Finals',
       matches: [
-        { id: 7, team1: 'Shadow Assassins', team2: 'Dark Knights', score: '3:2', duration: '58 мин', date: '20.04.2023' },
+        { id: 7, team1: 'Shadow Assassins', team2: 'Dark Knights', score: '3:2', duration: '58 min', date: '20.04.2023' },
       ]
     }
   ]
